@@ -8,7 +8,6 @@ import ProductVariantsModel from "../../models/productVariants.js";
 
 export const findCategoryTopProducts = async (category_id) => {
   try {
-    console.log("category_id-------------", category_id);
     const responseData = await MasterProductsModel.findAll({
       attributes: [
         "product_id",
@@ -77,7 +76,6 @@ export const findProductVariants = async (products) => {
 
 export const findAllProducts = async ({ search = null, category = null }) => {
   try {
-    console.log("search-----------", search);
     let where = { isDeleted: 0 };
     where = search
       ? { ...where, product_name: { [Op.like]: `%${search}%` } }

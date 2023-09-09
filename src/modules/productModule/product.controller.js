@@ -9,7 +9,6 @@ import {
 export const getTopProducts = async (req, res) => {
   try {
     const allCategories = await fetchAllCategories();
-    console.log("allCategories-----", allCategories);
 
     const productsMapperData = {};
     for (const category of allCategories) {

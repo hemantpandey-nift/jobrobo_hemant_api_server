@@ -10,10 +10,7 @@ export const generateRefreshToken = (data) => {
   const tokenData = {
     id: data.loginId,
   };
-  console.log(" tokenData-----", tokenData);
-
   const token = signedRefreshToken(tokenData);
-  console.log(" token-----", token);
   return token;
 };
 
@@ -24,7 +21,6 @@ export const signedRefreshToken = (data) => {
     token_use: "refresh",
     auth_time: Date.now(),
   };
-  console.log(" tokenData-----", tokenData);
 
   return jwt.sign(tokenData, process.env.JWT_SECRET_REFRESH_TOKEN, {
     expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,

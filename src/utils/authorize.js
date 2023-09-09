@@ -7,7 +7,6 @@ export function authorizeUser() {
   return async (req, res, next) => {
     try {
       const apiUrl = req.originalUrl;
-      console.log("apiUrl-----", apiUrl);
       const loginRoutes = ["/api/auth/login"];
 
       if (!loginRoutes.includes(apiUrl)) {
@@ -20,7 +19,6 @@ export function authorizeUser() {
         }
 
         if (!token) {
-          console.log("token-----", token);
           return res.status(401).json({
             status: false,
             message: MESSAGES.ERROR.GLOBAL.AUTHENTICATION_FAILED,
@@ -34,26 +32,21 @@ export function authorizeUser() {
             if (err) {
               throw new Error("Invalid Token");
             } else {
-              console.log("decoded----", decoded);
               req.auth = { userId: decoded.loginId };
             }
           }
         );
-        console.log("req.auth----", req.auth);
         const userData = await UserDetailsModel.findOne({
           attributes: ["login_id"],
           where: { login_id: req.auth.userId, isDeleted: 0 },
           raw: true,
         });
-        console.log("userData----", userData);
         if (!userData) {
           return res.status(400).json({
             status: false,
             message: MESSAGES.ERROR.GLOBAL.UNAUTHORIZED,
           });
         }
-
-        console.log(" req.auth-----", req.auth);
       }
       next();
     } catch (error) {

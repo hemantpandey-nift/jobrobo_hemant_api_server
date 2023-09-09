@@ -4,7 +4,6 @@ import { comparePassword, generateAccessToken } from "./auth.helper.js";
 
 export const userLogin = async (req, res) => {
   try {
-    console.log(" req.body-----", req.body);
     const { loginId, loginPassword } = req.body;
     if (!loginId || !loginPassword) {
       return res.status(400).json({
@@ -29,7 +28,6 @@ export const userLogin = async (req, res) => {
     if (isPassword === "true") {
       let userPassword = userData?.login_password;
       let passwordCompared = await comparePassword(loginPassword, userPassword);
-      console.log(" passwordCompared-----", passwordCompared);
       if (!passwordCompared) {
         return res.status(400).json({
           status: false,
@@ -41,8 +39,6 @@ export const userLogin = async (req, res) => {
     const generatedAccessTokenData = generateAccessToken({
       loginId,
     });
-
-    console.log(" generatedAccessTokenData-----", generatedAccessTokenData);
 
     await UserDetailsModel.update(
       { last_logged_at: new Date() },
