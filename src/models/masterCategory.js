@@ -48,3 +48,8 @@ MasterSubCategoryModel.belongsTo(MasterCategoryModel, {
   foreignKey: "category_id",
   as: "masterCategory",
 });
+
+MasterCategoryModel.hasMany(MasterSubCategoryModel, {
+  foreignKey: "category_id",
+  as: "masterSubCategory",
+});

@@ -16,4 +16,8 @@ productRoute.get(
   }
 );
 
+productRoute.get("/all-categories", (req, res) => {
+  productController.getAllCategories(req, res);
+});
+
 export default productRoute;

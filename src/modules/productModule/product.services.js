@@ -163,6 +163,30 @@ export const findAllCategories = async () => {
       attributes: ["category_id", "category_name"],
       where: { isDeleted: 0 },
       raw: true,
+      nest: true,
+    });
+
+    return responseData;
+  } catch (error) {
+    console.log("error:", error);
+    throw new Error(MESSAGES.ERROR.GLOBAL.CATEGORY_DATA);
+  }
+};
+
+export const findAllCategoriesData = async () => {
+  try {
+    const responseData = await MasterCategoryModel.findAll({
+      attributes: ["category_id", "category_name"],
+      where: { isDeleted: 0 },
+      include: [
+        {
+          model: MasterSubCategoryModel,
+          attributes: ["sub_category_name", "category_id", "sub_category_id"],
+          as: "masterSubCategory",
+        },
+      ],
+      raw: true,
+      nest: true,
     });
 
     return responseData;

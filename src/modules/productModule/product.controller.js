@@ -1,6 +1,7 @@
 import { MESSAGES } from "../../constants/index.js";
 import {
   fetchAllCategories,
+  fetchAllCategoriesList,
   fetchAllProducts,
   fetchCategoryTopProducts,
   fetchProductVariants,
@@ -136,6 +137,44 @@ export const getAllProducts = async (req, res) => {
       status: true,
       message: MESSAGES.SUCCESS.GLOBAL.PRODUCTS_DATA,
       data: allProductsData,
+    });
+  } catch (error) {
+    console.log("error:", error);
+    return res.status(400).json({
+      status: false,
+      message: MESSAGES.ERROR.GLOBAL.PRODUCTS_DATA,
+    });
+  }
+};
+
+export const getAllCategories = async (req, res) => {
+  try {
+    const allCategories = await fetchAllCategoriesList();
+    const categoriesMapperData = {};
+
+    for (const category of allCategories) {
+      if (!categoriesMapperData[category.category_id]) {
+        categoriesMapperData[category.category_id] = {
+          category_id: category.category_id,
+          category_name: category.category_name,
+          subCategories: [],
+        };
+      }
+      const subCatData = {
+        sub_category_name: category.masterSubCategory.sub_category_name,
+        sub_category_id: category.masterSubCategory.sub_category_id,
+      };
+      categoriesMapperData[category.category_id].subCategories.push(subCatData);
+    }
+
+    const allCategoriesData = [];
+    for (const key in categoriesMapperData) {
+      allCategoriesData.push(categoriesMapperData[key]);
+    }
+    return res.status(200).json({
+      status: true,
+      message: MESSAGES.SUCCESS.GLOBAL.PRODUCTS_DATA,
+      data: allCategoriesData,
     });
   } catch (error) {
     console.log("error:", error);

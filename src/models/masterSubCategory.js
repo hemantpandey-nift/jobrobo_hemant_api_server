@@ -2,6 +2,7 @@ import sequelize from "../config/database.js";
 import { Model, DataTypes } from "sequelize";
 import { TABLES } from "../constants/tabels.js";
 import MasterProductsModel from "./masterProducts.js";
+import MasterCategoryModel from "./masterCategory.js";
 
 const config = {
   tableName: TABLES.TAB_MASTER_SUB_CATEGORY,

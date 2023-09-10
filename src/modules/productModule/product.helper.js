@@ -1,6 +1,7 @@
 import { MESSAGES } from "../../constants/index.js";
 import {
   findAllCategories,
+  findAllCategoriesData,
   findAllProducts,
   findCategoryTopProducts,
   findProductVariants,
@@ -38,6 +39,16 @@ export const fetchAllProducts = async ({ search = null, category = null }) => {
 export const fetchAllCategories = async () => {
   try {
     const categoryData = await findAllCategories();
+    return categoryData;
+  } catch (error) {
+    console.log("error:", error);
+    throw new Error(MESSAGES.ERROR.GLOBAL.CATEGORY_DATA);
+  }
+};
+
+export const fetchAllCategoriesList = async () => {
+  try {
+    const categoryData = await findAllCategoriesData();
     return categoryData;
   } catch (error) {
     console.log("error:", error);
