@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import { MESSAGES } from "../constants/messages.js";
 import UserDetailsModel from "../models/userDetails.js";
-import { Sequelize } from "sequelize";
 
 export function authorizeUser() {
   return async (req, res, next) => {

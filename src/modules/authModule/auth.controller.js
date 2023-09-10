@@ -12,7 +12,7 @@ export const userLogin = async (req, res) => {
       });
     }
     const userData = await UserDetailsModel.findOne({
-      attributes: ["login_id", "login_password"],
+      attributes: ["login_id", "login_password", "user_name"],
       where: { login_id: loginId, isDeleted: 0 },
       raw: true,
     });
@@ -27,6 +27,7 @@ export const userLogin = async (req, res) => {
     const isPassword = process.env.PASSWORD;
     if (isPassword === "true") {
       let userPassword = userData?.login_password;
+
       let passwordCompared = await comparePassword(loginPassword, userPassword);
       if (!passwordCompared) {
         return res.status(400).json({
@@ -38,6 +39,7 @@ export const userLogin = async (req, res) => {
 
     const generatedAccessTokenData = generateAccessToken({
       loginId,
+      user_name: userData.user_name,
     });
 
     await UserDetailsModel.update(

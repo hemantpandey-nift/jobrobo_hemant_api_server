@@ -37,6 +37,9 @@ export const getTopProducts = async (req, res) => {
             product.productSubCategory.category_id;
           productsMapperData[product.product_id].category_name =
             product.productSubCategory.masterCategory.category_name;
+          productsMapperData[product.product_id].brand_id = product.brand_id;
+          productsMapperData[product.product_id].brand_name =
+            product.productBrand.brand_name;
         }
       }
 
@@ -105,6 +108,9 @@ export const getAllProducts = async (req, res) => {
           product.productSubCategory.category_id;
         productsMapperData[product.product_id].category_name =
           product.productSubCategory.masterCategory.category_name;
+        productsMapperData[product.product_id].brand_id = product.brand_id;
+        productsMapperData[product.product_id].brand_name =
+          product.productBrand.brand_name;
       }
       const productVariantData = {
         product_variant_id: product.productVariants.product_variant_id,

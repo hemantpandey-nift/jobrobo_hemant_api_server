@@ -1,6 +1,7 @@
 import sequelize from "../config/database.js";
 import { Model, DataTypes } from "sequelize";
 import { TABLES } from "../constants/tabels.js";
+import MasterProductsModel from "./masterProducts.js";
 
 const config = {
   tableName: TABLES.TAB_MASTER_BRANDS,
@@ -41,3 +42,8 @@ MasterBrandsModel.init(
   config
 );
 export default MasterBrandsModel;
+
+MasterProductsModel.belongsTo(MasterBrandsModel, {
+  foreignKey: "brand_id",
+  as: "productBrand",
+});

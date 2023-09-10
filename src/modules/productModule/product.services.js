@@ -5,6 +5,7 @@ import MasterPackagingModel from "../../models/masterPackaging.js";
 import MasterProductsModel from "../../models/masterProducts.js";
 import MasterSubCategoryModel from "../../models/masterSubCategory.js";
 import ProductVariantsModel from "../../models/productVariants.js";
+import MasterBrandsModel from "../../models/masterBrands.js";
 
 export const findCategoryTopProducts = async (category_id) => {
   try {
@@ -15,6 +16,7 @@ export const findCategoryTopProducts = async (category_id) => {
         "product_rating",
         "is_veg",
         "sub_category_id",
+        "brand_id",
       ],
       where: { isDeleted: 0 },
       include: [
@@ -32,12 +34,19 @@ export const findCategoryTopProducts = async (category_id) => {
             },
           ],
         },
+        {
+          model: MasterBrandsModel,
+          attributes: ["brand_name"],
+          as: "productBrand",
+          required: true,
+        },
       ],
       order: [["product_rating", "DESC"]],
       limit: 5,
       raw: true,
       nest: true,
     });
+
     return responseData;
   } catch (error) {
     console.log("error:", error);
@@ -93,6 +102,7 @@ export const findAllProducts = async ({ search = null, category = null }) => {
         "product_rating",
         "is_veg",
         "sub_category_id",
+        "brand_id",
       ],
       where: where,
       include: [
@@ -109,6 +119,12 @@ export const findAllProducts = async ({ search = null, category = null }) => {
               where: categoryWhere,
             },
           ],
+        },
+        {
+          model: MasterBrandsModel,
+          attributes: ["brand_name"],
+          as: "productBrand",
+          required: true,
         },
         {
           model: ProductVariantsModel,
